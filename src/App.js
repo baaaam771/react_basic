@@ -23,8 +23,12 @@ class WorldClock extends Component {
     }
 // this.setState
     setInterval(() => {
-      this.setState((state) => ({minute: state.minute + 1}))
-    } ,1000)
+      this.setState((state) => (
+        state.minute === 59
+        ? {hour: state.hour + 1, minute: 0}
+        : {minute: state.minute + 1}
+      ))
+    } ,100)
 
   }
 
