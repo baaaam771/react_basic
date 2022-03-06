@@ -19,10 +19,11 @@ class WorldClock extends Component {
     super(props)
     this.state = {
       hour: this.props.time,
-      minute: 0
+      minute: 0,
+      stop: false,
     }
 // this.setState
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState((state) => (
         state.minute === 59
         ? {hour: state.hour + 1, minute: 0}
@@ -32,11 +33,18 @@ class WorldClock extends Component {
 
   }
 
+  handlingClick = (event) => {
+    console.log(event.target)
+    this.setState({stop: event.target.value})
+    clearInterval(this.timer)
+  }
+
   render() {
     return (
       <div className={"WorldClock"}>
         <h2>🌏도시: {this.props.city}</h2>
         <p>⌚시간: {this.state.hour}시 {this.state.minute}분</p>
+        <button value={true} onClick={this.handlingClick}>멈춰!</button>
       </div>
     )
   }
