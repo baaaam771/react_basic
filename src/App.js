@@ -12,7 +12,7 @@ import {Component} from 'react'
 //   )
 // }
 
-// 시 분 변화 동적으로 변하는 것을 만들고 싶다 state
+// 시 분 변화 동적으로 변하는 것을 만들고 싶다 state 활용
 class WorldClock extends Component {
 
   constructor(props) {
@@ -21,6 +21,11 @@ class WorldClock extends Component {
       hour: this.props.time,
       minute: 0
     }
+// this.setState
+    setInterval(() => {
+      this.setState((state) => ({minute: state.minute + 1}))
+    } ,1000)
+
   }
 
   render() {
