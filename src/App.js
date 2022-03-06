@@ -1,15 +1,39 @@
 import logo from './logo.svg';
 import './App.css';
+import {Component} from 'react'
 
 
-function WorldClock(props) {
-  return (
-    <div className={"WorldClock"}>
-      <h2>🌏도시: {props.city}</h2>
-      <p>⌚시간: {props.time}시</p>
-    </div>
-  )
+// function WorldClock(props) {
+//   return (
+//     <div className={"WorldClock"}>
+//       <h2>🌏도시: {props.city}</h2>
+//       <p>⌚시간: {props.time}시</p>
+//     </div>
+//   )
+// }
+
+// 시 분 변화 동적으로 변하는 것을 만들고 싶다 state
+class WorldClock extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      hour: this.props.time,
+      minute: 0
+    }
+  }
+
+  render() {
+    return (
+      <div className={"WorldClock"}>
+        <h2>🌏도시: {this.props.city}</h2>
+        <p>⌚시간: {this.state.hour}시 {this.state.minute}분</p>
+      </div>
+    )
+  }
+
 }
+
 
 function App() {
   const cityTimeData = [
