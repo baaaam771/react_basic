@@ -45,6 +45,11 @@ class WorldClock extends PureComponent {
     console.log("  Child) 업데이트!")
   }
 
+  componentWillUnmount() {
+    console.log("  Child) 언마운트!")
+    clearInterval(this.timer)
+  }
+
   handlingClick = (event) => {
     console.log(event.target)
     this.setState({stop: event.target.value})
@@ -122,11 +127,11 @@ class App extends Component {
   }
 
   handlingClick = (event) => {
-    this.setState({show: false})
+    this.setState((prevState) => ({show: !prevState.show}))
   }
   
   render() {
-    console.log("Parent) 렌더링!")
+    // console.log("Parent) 렌더링!")
 
     return (
       <div className="App">
@@ -137,7 +142,7 @@ class App extends Component {
           <textarea value={this.state.content} onChange={this.handlingChange}></textarea>
         </div>
         <br />
-        <button onClick={this.handlingClick}>제거</button>
+        <button onClick={this.handlingClick}>toggle</button>
         { this.state.show &&
           this.cityTimeData.map((citytime, index)=>
           <WorldClock city = {citytime[0]} time = {citytime[1]} key = {index} />
