@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {Component} from 'react'
+import {PureComponent} from 'react'
 
 
 // function WorldClock(props) {
@@ -13,7 +14,7 @@ import {Component} from 'react'
 // }
 
 // 시 분 변화 동적으로 변하는 것을 만들고 싶다 state 활용
-class WorldClock extends Component {
+class WorldClock extends PureComponent {
 
   constructor(props) {
     super(props)
@@ -22,15 +23,26 @@ class WorldClock extends Component {
       minute: 0,
       stop: false,
     }
-// this.setState
+
+    console.log("  Child) 시작합니다.")
+
+  }
+
+  componentDidMount() {
+  // this.setState
     this.timer = setInterval(() => {
       this.setState((state) => (
         state.minute === 59
         ? {hour: state.hour + 1, minute: 0}
         : {minute: state.minute + 1}
       ))
-    } ,100)
+    } ,5000)  
 
+    console.log("  Child) 마운트되었습니다.")
+  }
+
+  componentDidUpdate() {
+    console.log("  Child) 업데이트!")
   }
 
   handlingClick = (event) => {
@@ -90,16 +102,31 @@ class App extends Component {
       ['LA', 17]
     ]
     this.state = {
-      content: ''
+      content: '',
+      show: true,
     }
+    console.log("Parent) 시작합니다.")
 
+  }
+
+  componentDidMount() {
+    console.log("Parent) 마운트되었습니다.")
+  }
+
+  componentDidUpdate() {
+    console.log("Parent) 업데이트!")
   }
 
   handlingChange = (event) => {
     this.setState({content: event.target.value})
   }
+
+  handlingClick = (event) => {
+    this.setState({show: false})
+  }
   
   render() {
+    console.log("Parent) 렌더링!")
 
     return (
       <div className="App">
@@ -109,7 +136,10 @@ class App extends Component {
           <br />
           <textarea value={this.state.content} onChange={this.handlingChange}></textarea>
         </div>
-        {this.cityTimeData.map((citytime, index)=>
+        <br />
+        <button onClick={this.handlingClick}>제거</button>
+        { this.state.show &&
+          this.cityTimeData.map((citytime, index)=>
           <WorldClock city = {citytime[0]} time = {citytime[1]} key = {index} />
         )}
       </div>
